@@ -46,11 +46,7 @@
   .container{width:min(1200px,92%);margin-inline:auto}
   html{scroll-behavior:smooth}
   
-  /* Header */
-  header{
-    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);
-    backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)
-  }
+
   .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
   .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px;color:var(--text)}
 
@@ -64,8 +60,34 @@
   .hamburger{display:none}
   
   /* Mobile Menu */
-  .mobile-menu{border-bottom:1px solid var(--line);background:#fff}
-  .mobile-menu-inner{padding:10px 0 16px;display:grid;gap:8px}
+  .mobile-menu {
+    position: fixed;
+    top: var(--header-h);  
+    left: 0;
+    right: 0;
+    bottom: 0; 
+    inset: 0;
+    background: transparent;   
+    z-index: 999;
+    overflow-y: auto;
+  }
+   /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 200;              /* ↑ make this higher than the menu */
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-menu-inner {
+    margin-top: var(--header-h);
+    padding: 16px 0 24px;
+    background: rgba(255, 255, 255, 0.96);  /* white but slightly see-through */
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 12px;
+  }
   .hide{display:none}
   
   /* Hero */

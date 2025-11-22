@@ -54,27 +54,32 @@
   
 
   <!-- Mobile Menu -->
-  <div id="mobileMenu" class="mobile-menu hide" role="dialog" aria-modal="true" aria-label="Mobile menu">
-    <div class="container mobile-menu-inner">
-      <a href="#services" onclick="toggleMobile()">Services</a>
-      <a href="#packages" onclick="toggleMobile()">Packages</a>
-      <a href="#gallery" onclick="toggleMobile()">Gallery</a>
-      <a href="#about" onclick="toggleMobile()">About</a>
-      <a href="#testimonials" onclick="toggleMobile()">Reviews</a>
-      <a href="#contact" onclick="toggleMobile()">Contact</a>
-      <a class="btn btn-primary" href="#contact" onclick="toggleMobile()">Get a Quote</a>
-    </div>
-  </div>
+  <div id="mobileMenu"
+  class="mobile-menu hide"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile menu"
+  onclick="backdropClick(event)">
+<div class="container mobile-menu-inner" onclick="event.stopPropagation()">
+ <a href="#services" onclick="toggleMobile(true)">Services</a>
+ <a href="#packages" onclick="toggleMobile(true)">Packages</a>
+ <a href="#gallery" onclick="toggleMobile(true)">Gallery</a>
+ <a href="#about" onclick="toggleMobile(true)">About</a>
+ <a href="#testimonials" onclick="toggleMobile(true)">Reviews</a>
+ <a href="#contact" onclick="toggleMobile(true)">Contact</a>
+ <a class="btn btn-primary" href="#contact" onclick="toggleMobile(true)">Get a Quote</a>
+</div>
+</div>
 
   <!-- Hero -->
   <section class="hero">
     <div class="container hero-grid">
       <div data-animate="slide-right">
         <div class="badge">Professional • Insured • Eco-Friendly</div>
-        <h1>Spotless homes and offices, done right.</h1>
+        <h1>“Spotless London homes and offices — without you lifting a finger.”</h1>
         <p>From reliable weekly cleans to full top-to-bottom deep cleaning, our trained team delivers hygienic results with safe, effective products.</p>
         <div class="cta">
-          <a class="btn btn-primary" href="#contact">Book a Free Quote</a>
+          <a class="btn btn-primary" href="#contact">Get a Free Quote</a>
           <a class="btn btn-ghost" href="#services">See Services</a>
         </div>
         <div class="rating">
@@ -421,28 +426,45 @@
       © <span id="year"></span> Spark &amp; Shine. All rights reserved.
     </div>
   </footer>
-
   <script>
-    function toggleMobile(){
+    // open / close mobile menu
+    function toggleMobile(forceClose = false){
       const menu = document.getElementById('mobileMenu');
-      const btn = document.querySelector('.hamburger');
-      const isHidden = menu.classList.toggle('hide');
+      const btn  = document.querySelector('.hamburger');
+  
+      let isHidden;
+  
+      if (forceClose) {
+        menu.classList.add('hide');     // always close
+        isHidden = true;
+      } else {
+        isHidden = menu.classList.toggle('hide'); // toggle
+      }
+  
       btn.setAttribute('aria-expanded', (!isHidden).toString());
     }
+  
+    // close when clicking backdrop (outside panel)
+    function backdropClick(e){
+      if (e.target === e.currentTarget) { // click on outer div only
+        toggleMobile(true);
+      }
+    }
+  
     document.getElementById('year').textContent = new Date().getFullYear();
-
+  
     // ---------- Scroll Reveal (IntersectionObserver) ----------
     (function(){
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReduced) return; // Respect user preference
-
+  
       const els = document.querySelectorAll('[data-animate]');
       els.forEach(el => {
         el.classList.add('will-animate'); // start hidden
         const delay = el.getAttribute('data-delay');
         if (delay) el.style.setProperty('--reveal-delay', delay + 'ms');
       });
-
+  
       const io = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -451,9 +473,10 @@
           }
         });
       }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-
+  
       els.forEach(el => io.observe(el));
     })();
   </script>
+  
 </body>
 </html>
